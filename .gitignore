@@ -1,0 +1,7 @@
+.DS_Store
+.claude/
+.vscode/
+PrivacyFocusedApp-main/
+node_modules/
+.next/
+*.log

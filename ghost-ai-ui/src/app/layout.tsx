@@ -1,20 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "GhostAI — Anonymous ZK Proof of Existence Chat",
-  description: "End-to-end encrypted anonymous conversation history secured by zero-knowledge proofs on the Midnight blockchain.",
+  title: "GhostAI — Privacy-Focused Multi-Model AI & Cryptographic Verification",
+  description: "Ephemeral, zero-storage multi-model AI comparison engine secured with client-side cryptographic sealing on the Midnight blockchain.",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
@@ -24,9 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark h-full">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full bg-[#030303] text-[#f4f4f5]`}
-      >
+      <body className="antialiased h-full bg-[#090a0f] text-[#f8fafc]">
         {children}
       </body>
     </html>

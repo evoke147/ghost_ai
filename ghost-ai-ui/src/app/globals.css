@@ -1,119 +1,110 @@
+/* ── Tailwind CSS v4 import (processed by @tailwindcss/postcss) ── */
 @import "tailwindcss";
 
-@theme {
-  --color-background: #030303;
-  --color-foreground: #f4f4f5;
-  
-  --color-neon-emerald: #059669;
-  --color-neon-violet: #7c3aed;
-  
-  --color-cyber-black: #050506;
-  --color-cyber-dark: #0a0a0c;
-  --color-cyber-zinc: #121214;
-  --color-cyber-border: #1f1f23;
-
-  --animate-pulse-glow: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  --animate-scanning-line: scanning-line 8s linear infinite;
-  --animate-skeleton-shimmer: skeleton-shimmer 1.6s ease-in-out infinite;
-  --animate-nuke-glow: nuke-glow 0.8s ease-in-out infinite alternate;
-  --animate-col-in: col-in 0.25s ease-out forwards;
-  --animate-fade-in-up: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  --animate-hero-scan: hero-scan 4s linear infinite;
-
-  @keyframes pulse-glow {
-    0%, 100% {
-      opacity: 1;
-      filter: drop-shadow(0 0 2px rgba(5, 150, 105, 0.4));
-    }
-    50% {
-      opacity: 0.7;
-      filter: drop-shadow(0 0 10px rgba(5, 150, 105, 0.8));
-    }
-  }
-  @keyframes scanning-line {
-    0%   { top: 0%;   }
-    50%  { top: 100%; }
-    100% { top: 0%;   }
-  }
-  @keyframes skeleton-shimmer {
-    0%   { background-position: -400px 0; }
-    100% { background-position:  400px 0; }
-  }
-  @keyframes nuke-glow {
-    0%   { box-shadow: 0 0 0px rgba(239,68,68,0);    border-color: #3f3f46; }
-    100% { box-shadow: 0 0 14px rgba(239,68,68,0.55); border-color: #ef4444; }
-  }
-  @keyframes col-in {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0);   }
-  }
-  @keyframes fade-in-up {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes hero-scan {
-    0%   { background-position: 200% center; }
-    100% { background-position: -200% center; }
-  }
-}
-
+/* ── Custom theme tokens ── */
 :root {
-  --background: #09090b; /* Updated to deep zinc */
-  --foreground: #f4f4f5;
+  --background: #090a0f;
+  --foreground: #f8fafc;
+
+  --color-privacy-cyan:    #06b6d4;
+  --color-privacy-emerald: #10b981;
+  --color-privacy-indigo:  #6366f1;
+  --color-privacy-slate:   #0f121d;
+  --color-privacy-card:    #121624;
+  --color-privacy-border:  #1e2436;
 }
 
+/* ── Keyframe animations ── */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.85; transform: scale(1.02); }
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+@keyframes purge-glow {
+  0%   { box-shadow: 0 0 0px rgba(239, 68, 68, 0); border-color: #334155; }
+  100% { box-shadow: 0 0 16px rgba(239, 68, 68, 0.45); border-color: #ef4444; }
+}
+
+@keyframes col-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ── Register animations as Tailwind v4 utilities via @theme ── */
+@theme {
+  --animate-pulse-subtle:     pulse-subtle     2.5s ease-in-out infinite;
+  --animate-skeleton-shimmer: skeleton-shimmer 1.6s ease-in-out infinite;
+  --animate-purge-glow:       purge-glow       0.8s ease-in-out infinite alternate;
+  --animate-col-in:           col-in           0.25s ease-out   forwards;
+  --animate-fade-in-up:       fade-in-up       0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Base styles ── */
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
 }
 
-/* Glassmorphism Panel */
-.glass-panel {
-  background-color: rgba(10, 10, 12, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(31, 31, 35, 0.8);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+/* ── Modern Privacy Glass Panels ── */
+.privacy-panel {
+  background: rgba(15, 18, 29, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(30, 36, 54, 0.85);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
-/* Custom scrollbars for the chat container */
+.privacy-card {
+  background: linear-gradient(180deg, rgba(18, 22, 36, 0.9) 0%, rgba(13, 16, 26, 0.9) 100%);
+  border: 1px solid rgba(30, 36, 54, 0.9);
+}
+
+/* ── Custom scrollbar ── */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
+  height: 5px;
 }
-
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #050506;
+  background: #090a0f;
 }
-
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #1f1f23;
-  border-radius: 2px;
+  background: #1e2436;
+  border-radius: 9999px;
 }
-
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #7c3aed;
+  background: #0ea5e9;
 }
 
-/* Skeleton shimmer bar */
+/* ── Skeleton shimmer bar ── */
 .skeleton-bar {
-  background: linear-gradient(
-    90deg,
-    #1a1a1f 0px,
-    #2a2a32 40px,
-    #1a1a1f 80px
-  );
+  background: linear-gradient(90deg, #161b2a 0px, #232c42 40px, #161b2a 80px);
   background-size: 400px 100%;
   animation: skeleton-shimmer 1.6s ease-in-out infinite;
 }
 
-/* Nuke button armed glow */
-.nuke-armed {
-  animation: nuke-glow 0.8s ease-in-out infinite alternate;
+/* ── Purge button armed glow ── */
+.purge-armed {
+  animation: purge-glow 0.8s ease-in-out infinite alternate;
 }
 
-/* Column entry animation */
+/* ── Column entry animation ── */
 .col-in {
   animation: col-in 0.25s ease-out forwards;
 }

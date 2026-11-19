@@ -70,7 +70,20 @@ The backend `/api/chat` proxy rotates across three dedicated OpenRouter API keys
 
 ---
 
-### 3. Midnight Proof of Existence — Cryptographic Conversation Auditing
+### 3. P2 Privacy Proxy — Automated Sensitive Data & PII Redaction
+
+Before any prompt is dispatched to third-party AI models (OpenAI, Google, NVIDIA, Cohere), it passes through the integrated **P2 Privacy Proxy** redaction engine:
+
+- **API Keys & Secrets**: Strips OpenAI (`sk-...`), Google (`AIza...`), GitHub, AWS, and private key blocks.
+- **Personally Identifiable Information (PII)**: Automatically redacts email addresses, international phone numbers, and National IDs/SSNs.
+- **Financial Identifiers**: Scans and sanitizes 16-digit payment card numbers and CVVs.
+- **Network Identifiers**: Redacts raw IPv4 and IPv6 addresses.
+
+Sensitive entities are replaced with cryptographic tokens (e.g., `[REDACTED_EMAIL]`, `[REDACTED_API_KEY]`), ensuring frontier models provide intelligent answers without ever possessing your private credentials or personal data.
+
+---
+
+### 4. Midnight Proof of Existence — Cryptographic Conversation Auditing
 
 The **Seal Matrix** and **Verify Authenticity** functions form GhostAI's judge-facing cryptographic integrity engine:
 
@@ -96,7 +109,7 @@ This architecture provides **non-repudiable proof of conversation integrity** wi
 
 ---
 
-### 4. Panic Nuke Toggle — Instant State Destruction
+### 5. Panic Shredder Toggle — Instant State Destruction
 
 The **Forget This Conversation** protocol executes a two-phase wipe:
 
