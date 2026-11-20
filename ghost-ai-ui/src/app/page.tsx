@@ -466,11 +466,6 @@ const LandingHero: React.FC<{ onLaunch: () => void }> = ({ onLaunch }) => {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="w-full border-t border-slate-800/80 py-5 text-center text-xs text-slate-500 z-10">
-        GhostAI • Privacy-Focused Architecture for the MLH Midnight Hackathon
-      </footer>
     </div>
   );
 };
