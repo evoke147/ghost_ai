@@ -2,15 +2,16 @@
 
 # ◈ GhostAI
 
-### *Ephemeral. Parallel. Cryptographically Sealed.*
+### *Privacy-First Multi-Model AI & Zero-Knowledge Verification Engine*
 
-**Anonymous multi-model AI comparison engine secured by Midnight zero-knowledge proof verification.**
+**Ephemeral, zero-storage multi-model AI comparison workspace featuring automated P2 sensitive data redaction and Midnight blockchain cryptographic integrity verification.**
 
-![Landing Screen](./assets/landing.png)
+![GhostAI Landing Screen](./assets/verification/screenshot_01_landing.png)
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js&logoColor=white)](https://nextjs.org/)
-[![OpenRouter](https://img.shields.io/badge/OpenRouter-Multi--Key%20Matrix-violet)](https://openrouter.ai/)
+[![P2 Proxy](https://img.shields.io/badge/P2%20Proxy-Automated%20PII%20Redaction-cyan)](https://github.com/evoke147/ghost_ai)
 [![Midnight](https://img.shields.io/badge/Midnight-ZK%20Proof--of--Existence-emerald)](https://midnight.network/)
+[![OpenRouter](https://img.shields.io/badge/OpenRouter-Multi--Key%20Matrix-violet)](https://openrouter.ai/)
 [![MLH Hackathon](https://img.shields.io/badge/MLH-Hackathon%202026-red)](https://mlh.io/)
 
 </div>
@@ -19,122 +20,130 @@
 
 ## ◈ The Problem with Every Other AI Interface
 
-Every mainstream AI interface leaves a trace.
+Every mainstream AI interface leaves an indelible digital footprint:
 
-When you query ChatGPT, Claude, or Gemini, your device fingerprint is logged. Your session cookies are persisted. Your conversation metadata is indexed. Your IP is stored. Your prompt embeddings may be retained for training. The conversation you believe is private is, at minimum, cached in a server buffer you will never control.
+When you query traditional chatbots, your device fingerprint is indexed, persistent session cookies are tracked, conversations are archived on centralized databases, your IP is cataloged, and prompt embeddings may be harvested for model training. Even "incognito" modes typically cache your prompts in unencrypted server memory buffers.
 
-**GhostAI operates on a fundamentally different contract.**
+**GhostAI enforces an uncompromising zero-retention privacy contract:**
 
-Zero server-side conversation storage. Zero persistent cookies. Zero device fingerprint retention. The instant you close the tab, the session evaporates — not into an archive, not into a log — into nothing. And when you need to *prove* a conversation happened? You commit a cryptographic SHA-256 hash to the Midnight blockchain, anchoring your proof to an immutable ledger without ever exposing the plaintext content.
-
-This is not a privacy checkbox. This is a privacy-first architecture.
+1. **P2 Privacy Proxy**: Automatically redacts sensitive user data (emails, API keys, credentials, phone numbers, payment cards, national IDs) client-side and at the edge proxy before prompts ever reach an AI model.
+2. **RAM-Only Enclave**: Zero server-side conversation logs. Zero persistent cookies. Zero disk storage. Conversations exist strictly in volatile browser RAM (`sessionStorage`) and evaporate the moment you close your tab.
+3. **Midnight Zero-Knowledge Proofs**: Anchor a client-side SHA-256 cryptographic digest to the Midnight blockchain ledger. Prove a conversation occurred at an exact block height with zero plaintext disclosure.
 
 ---
 
-## ◈ Core Feature Walkthrough
+## ◈ Operational Dashboard Overview
 
-### 1. Anonymous Nodes — Zero Footprint Sessions
+![GhostAI Workspace](./assets/verification/screenshot_02_dashboard.png)
 
-GhostAI initializes a new cryptographically random session ID (`crypto.randomUUID()`) on every page load. This UUID lives exclusively in the browser's `sessionStorage` — not in `localStorage`, not in a cookie, not on any server. The moment the browser tab closes, the session matrix is permanently destroyed with no recovery vector.
+---
+
+## ◈ Core Architecture Pillars
+
+### 1. P2 Privacy Proxy — Automated Sensitive Data & PII Redaction
+
+Before any user prompt leaves your browser or arrives at third-party models (OpenAI, Google, NVIDIA, Cohere), it passes through the built-in **P2 Privacy Proxy** redaction engine:
+
+- **API Keys & Secrets**: Detects and strips OpenAI (`sk-...`), Google (`AIza...`), GitHub tokens, AWS credentials, and private key blocks (`[REDACTED_API_KEY]`, `[REDACTED_PRIVATE_KEY_BLOCK]`).
+- **Personally Identifiable Information (PII)**: Automatically sanitizes email addresses (`[REDACTED_EMAIL]`), international phone numbers (`[REDACTED_PHONE]`), and National IDs / SSNs (`[REDACTED_NATIONAL_ID]`).
+- **Financial Identifiers**: Scans and sanitizes 16-digit payment card numbers (`[REDACTED_PAYMENT_CARD]`).
+- **Network Identifiers**: Redacts raw IPv4 and IPv6 addresses (`[REDACTED_IP]`).
+
+When sensitive identifiers are scrubbed, GhostAI provides real-time in-chat visual audit confirmation:
+
+```
+🛡️ P2 Redacted: 2 item(s) scrubbed (EMAIL, API_KEY)
+```
+
+Upstream models receive deterministic redaction tokens, allowing them to provide intelligent, contextual reasoning without ever possessing your confidential credentials or private identity.
+
+---
+
+### 2. Ephemeral Memory Enclave — Zero Footprint Sessions
+
+GhostAI generates a cryptographically random session identifier (`safeRandomUUID()`) on each session initialization. This token resides strictly in browser volatile RAM (`sessionStorage`):
 
 ```
 Session Lifecycle:
    Tab Open → UUID Generated → [sessionStorage only] → Tab Close → GONE
-   No server log. No database row. No trace.
+   Zero server database. Zero disk logs. Zero tracking cookies.
 ```
 
-### 2. Parallel Comparison Matrix — Side-by-Side Streaming
-
-Select between 1 and 3 models from the GhostAI model registry and activate **Comparison Mode**. A single prompt fans out to independent parallel streams simultaneously, rendering responses side-by-side in real time.
-
-**Available Model Matrix:**
-| Provider | Model | Context |
-|---|---|---|
-| OpenAI | `gpt-oss-20b:free` | 200K |
-| Meta | `llama-3.3-70b-instruct:free` | 128K |
-| Nvidia | `nemotron-3-ultra-550b-a55b:free` | 131K |
-| Nvidia | `nemotron-3-super-120b-a12b:free` | 131K |
-| Nvidia | `nemotron-3-nano-omni-30b:free` | 32K |
-| Nvidia | `nemotron-3.5-content-safety:free` | 32K |
-| Google | `gemma-4-26b-a4b-it:free` | 8K |
-| Cohere | `north-mini-code:free` | 256K |
-| Poolside | `laguna-xs-2.1:free` | 32K |
-
-Each model column streams independently — one timing out does not block or corrupt the others.
-
-![Three-Model Comparison Mode](./assets/three_model.png)
-
-The backend `/api/chat` proxy rotates across three dedicated OpenRouter API keys mapped by column index, eliminating single-key rate limiting across the full 3-model comparison session.
-
-![Side-by-Side Comparison Active](./assets/comparison.png)
+The real-time client-side privacy telemetry continuously audits storage boundaries:
+- **Cookies**: `0 Detected (Blocked)`
+- **LocalStorage**: `0 Bytes (RAM-Only)`
+- **P2 Data Proxy**: `Active (0 PII Leaks)`
+- **Server DB**: `None (Stateless Edge Proxy)`
 
 ---
 
-### 3. P2 Privacy Proxy — Automated Sensitive Data & PII Redaction
+### 3. Parallel Cognition Matrix — Side-by-Side Streaming
 
-Before any prompt is dispatched to third-party AI models (OpenAI, Google, NVIDIA, Cohere), it passes through the integrated **P2 Privacy Proxy** redaction engine:
+![Comparison Streaming](./assets/verification/screenshot_06_comparison_streaming.png)
 
-- **API Keys & Secrets**: Strips OpenAI (`sk-...`), Google (`AIza...`), GitHub, AWS, and private key blocks.
-- **Personally Identifiable Information (PII)**: Automatically redacts email addresses, international phone numbers, and National IDs/SSNs.
-- **Financial Identifiers**: Scans and sanitizes 16-digit payment card numbers and CVVs.
-- **Network Identifiers**: Redacts raw IPv4 and IPv6 addresses.
+Switch between **Single Model Mode** and **Parallel Comparison Mode** directly from the header selector. A single prompt fans out concurrently to independent parallel streams, rendering side-by-side responses in real-time.
 
-Sensitive entities are replaced with cryptographic tokens (e.g., `[REDACTED_EMAIL]`, `[REDACTED_API_KEY]`), ensuring frontier models provide intelligent answers without ever possessing your private credentials or personal data.
+**Supported Frontier Model Matrix:**
+| Provider | Model ID | Context Window | Mode |
+|---|---|---|---|
+| **OpenAI** | `gpt-oss-20b:free` | 200K | Single / Parallel |
+| **Google** | `gemma-4-26b-a4b-it:free` | 8K | Single / Parallel |
+| **Google** | `gemma-4-31b-it:free` | 8K | Single |
+| **NVIDIA** | `nemotron-3-super-120b-a12b:free` | 131K | Single / Parallel |
+| **NVIDIA** | `nemotron-3-ultra-550b-a55b:free` | 131K | Single / Parallel |
+| **NVIDIA** | `nemotron-3-nano-omni-30b-a3b:free` | 32K | Single / Parallel |
+| **NVIDIA** | `nemotron-3.5-content-safety:free` | 32K | Single / Parallel |
+| **Cohere** | `north-mini-code:free` | 256K | Single / Parallel |
+| **Poolside** | `laguna-xs-2.1:free` | 32K | Single / Parallel |
+
+Each column stream decodes independently via Server-Sent Events (SSE). One model timing out or hitting rate limits never blocks or corrupts parallel sibling streams.
+
+The `/api/chat` edge router rotates upstream API keys across columns and includes seamless fallback to Google Gemini when upstream provider quotas are reached.
 
 ---
 
-### 4. Midnight Proof of Existence — Cryptographic Conversation Auditing
+### 4. Midnight Proof-of-Existence — Cryptographic Conversation Auditing
 
-The **Seal Matrix** and **Verify Authenticity** functions form GhostAI's judge-facing cryptographic integrity engine:
+The **Seal Matrix** and **Verify Authenticity** features provide judge-verifiable cryptographic proof without revealing plaintext conversation content:
 
 ```
 SEAL WORKFLOW:
    1. User clicks "Seal Matrix"
-   2. SHA-256 of full conversation text is computed client-side via Web Crypto API
-   3. Hash + unix timestamp are passed to midnightBridge.ts
-   4. Bridge invokes the Compact smart contract via the Lace wallet injected provider
-   5. ZK proof is generated locally (no plaintext leaves the browser)
-   6. Proof + hash are committed to the Midnight ledger
-   7. Block number + Transaction ID returned → displayed in the Audit Banner
-
-VERIFY WORKFLOW:
-   1. User clicks "Verify Authenticity"
-   2. Current visible conversation is re-hashed in-browser
-   3. New hash is compared against the on-chain committed hash
-   4. ✅ MATCHED → Authentic State Confirmed
-   5. ❌ TAMPERED → Warning banner displays both hashes for forensic comparison
+   2. Client-side SHA-256 hash of entire visible conversation is computed via Web Crypto API
+   3. Hash + timestamp are passed to midnightBridge.ts
+   4. Bridge invokes the Midnight Compact smart contract via Lace wallet injected provider
+   5. Local ZK proof is compiled (no plaintext ever leaves the browser)
+   6. Hash + proof are committed to the Midnight blockchain ledger
+   7. Transaction ID + Block Height returned → displayed in Audit Certificate Banner
 ```
 
-This architecture provides **non-repudiable proof of conversation integrity** without ever writing conversation plaintext to a blockchain, API log, or server buffer.
+![Matrix Sealed](./assets/verification/screenshot_04_matrix_sealed.png)
+
+```
+VERIFY WORKFLOW:
+   1. User clicks "Verify Authenticity"
+   2. Current conversation history is re-hashed dynamically in-browser
+   3. Newly computed hash is matched against the on-chain committed digest
+   4. ✅ MATCHED → "Authentic State Verified: Zero Tampering Detected"
+   5. ❌ TAMPERED → Warning banner displaying both local and on-chain hashes
+```
+
+![Verified Authentic](./assets/verification/screenshot_05_verified_authentic.png)
 
 ---
 
-### 5. Panic Shredder Toggle — Instant State Destruction
+### 5. Cryptographic Shredder — Instant State Zeroization
 
-The **Forget This Conversation** protocol executes a two-phase wipe:
+The **Shred Session State** protocol executes a 2-phase destruction sequence with a 3-second auto-disarm safety window:
 
-**Phase 1 (Immediate, client-side):**
-- Clears all React state buffers (messages, stream responses, ZK records)
-- Wipes `sessionStorage` entirely
-- Re-generates a new cryptographic `crypto.randomUUID()` session identity
+![Post-Shred Clean State](./assets/verification/screenshot_07_nuked_clean.png)
 
-**Phase 2 (Background, server-side):**
-- Fires a `navigator.sendBeacon('/api/chat/purge')` request
-- The purge endpoint flushes any mid-flight stream buffers upstream
-
-The entire operation takes under 100ms. The UI transitions immediately with no confirmation dialogs, no second screens, no delays.
-
-![Post-Nuke State](./assets/nuke.png)
-
----
-
-## ◈ Roadmap Horizon
-
-- **E2E Encrypted History Persistence:** User-owned AES-256 encrypted conversation archives stored in Midnight smart contract tables — readable only by the user who holds the wallet key.
-- **PDF & Document Understanding:** Multi-model parallel document analysis mode — drop a PDF and receive simultaneous interpretations from three independent reasoning engines.
-- **Encrypted Smart Contract Tables:** Full on-chain encrypted storage of conversation metadata using Midnight's native shielded data structures — no centralized database, no admin access, ever.
-- **Cross-Session Audit Trails:** Persistent ZK proof ledgers accessible via wallet authentication for long-running research and compliance workflows.
-- **Model Latency Benchmarking Panel:** A real-time dashboard comparing time-to-first-token and streaming throughput across all active models in comparison mode.
+- **Phase 1 (Immediate Client-Side Wipe)**:
+  - Zeroizes all React message buffers, stream responses, and ZK seal records.
+  - Clears `sessionStorage` completely.
+  - Re-initializes a fresh anonymous cryptographic UUID identity.
+- **Phase 2 (Edge Connection Flush)**:
+  - Dispatches an asynchronous `navigator.sendBeacon('/api/chat/purge')` request to flush mid-flight upstream streaming contexts.
 
 ---
 
@@ -142,19 +151,70 @@ The entire operation takes under 100ms. The UI transitions immediately with no c
 
 | Layer | Technology |
 |---|---|
-| Frontend | Next.js 16 (Turbopack), Tailwind CSS |
-| AI Backend | OpenRouter (multi-key proxy) |
-| Blockchain | Midnight Network (Compact smart contracts) |
-| Wallet | Midnight Lace |
-| ZK Proofs | Midnight native ZK circuits |
-| Session | Browser `sessionStorage` + `crypto.randomUUID()` |
+| **Frontend Framework** | Next.js 16 (App Router, Webpack/Turbopack), React 19 |
+| **Styling & Design System** | Tailwind CSS v4, Obsidian Privacy Palette, Custom Glassmorphism |
+| **Privacy Redaction** | Custom P2 Privacy Proxy Engine (`p2Proxy.ts`) |
+| **Cryptographic Hashing** | Web Crypto API (`SHA-256`), pure JS fallback (`jsSha256`) |
+| **Blockchain & Smart Contracts** | Midnight Network (`proof-of-existence.compact`), Lace Wallet |
+| **AI Inference** | OpenRouter (Multi-Key Matrix) + Google Gemini Edge Fallback |
+| **Session Isolation** | Ephemeral Browser RAM (`sessionStorage` + `safeRandomUUID()`) |
+
+---
+
+## ◈ Quick Start & Local Development
+
+### Prerequisites
+
+- Node.js 20+ (recommended: Node 22+)
+- npm, pnpm, or yarn
+
+### 1. Clone & Install
+
+```bash
+git clone https://github.com/evoke147/ghost_ai.git
+cd ghost_ai/ghost-ai-ui
+npm install
+```
+
+### 2. Configure Environment
+
+Create `.env.local` inside `ghost-ai-ui/`:
+
+```env
+# Google Gemini API key (fallback & inference)
+GOOGLE_API_KEY=your_gemini_api_key
+
+# Optional OpenRouter keys for multi-model matrix
+OPENROUTER_API_KEY_1=your_openrouter_key_1
+OPENROUTER_API_KEY_2=your_openrouter_key_2
+OPENROUTER_API_KEY_3=your_openrouter_key_3
+
+# Midnight Network Config
+NEXT_PUBLIC_NETWORK_ID=undeployed
+NEXT_PUBLIC_CONTRACT_ADDRESS=5681d5e55d4705159466441be78c1a5eaa80dd8a15d68a90166a0792ec3e9d97
+```
+
+### 3. Run Development Server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 4. Build for Production
+
+```bash
+npm run build
+npm start
+```
 
 ---
 
 <div align="center">
 
-Built in 48 hours for the **MLH Midnight Hackathon 2026**.
+Built for the **MLH Midnight Hackathon 2026**.
 
-*Leave no trace. Prove everything.*
+*Leave no trace. Redact sensitive data. Prove everything.*
 
 </div>

@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ◈ GhostAI — Privacy-Focused UI & P2 Proxy Enclave
 
-## Getting Started
+The Next.js 16 frontend workspace for **GhostAI**, featuring the **Privacy Enclave**, **P2 Sensitive Data Redaction Proxy**, **Multi-Model Parallel Inference**, and **Midnight Zero-Knowledge Proofs**.
 
-First, run the development server:
+---
+
+## 🚀 Key Features
+
+- **P2 Privacy Proxy**: Automatic real-time regex & pattern redaction of PII, API tokens, phone numbers, payment cards, national IDs, and private keys before prompts reach LLMs.
+- **RAM-Only Ephemeral Enclave**: Operates exclusively in browser volatile memory (`sessionStorage`). Zero persistent cookies, zero local storage, zero database logging.
+- **Parallel Multi-Model Comparison**: Stream up to 3 frontier LLMs concurrently (GPT OSS 20B, Gemma 4, Nemotron Super 120B, Laguna, Cohere) with isolated column decoders.
+- **Midnight ZK Proof of Existence**: Seal conversation state into a SHA-256 cryptographic digest committed to the Midnight blockchain. Verify integrity against the immutable ledger.
+- **Cryptographic Shredder**: 2-phase immediate zeroization protocol with upstream purge beacon.
+
+---
+
+## 🛠️ Local Development
 
 ```bash
+# 1. Install dependencies
+npm install
+
+# 2. Start development server with hot reload
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 3. Production build
+npm run build
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Runs on [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📋 Environment Configuration
 
-## Learn More
+Create `.env.local`:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+# Google Gemini API key for high-speed edge streaming fallback
+GOOGLE_API_KEY=your_gemini_api_key
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# OpenRouter multi-key matrix (optional)
+OPENROUTER_API_KEY_1=your_key_col_0
+OPENROUTER_API_KEY_2=your_key_col_1
+OPENROUTER_API_KEY_3=your_key_col_2
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Midnight Smart Contract
+NEXT_PUBLIC_NETWORK_ID=undeployed
+NEXT_PUBLIC_CONTRACT_ADDRESS=5681d5e55d4705159466441be78c1a5eaa80dd8a15d68a90166a0792ec3e9d97
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📁 Directory Layout
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+src/
+├── app/
+│   ├── api/
+│   │   └── chat/
+│   │       ├── route.ts        # P2 Proxy sanitization & multi-key stream router
+│   │       └── purge/
+│   │           └── route.ts    # Ephemeral session invalidation beacon
+│   ├── favicon.ico
+│   ├── globals.css             # Privacy theme tokens & glassmorphism styling
+│   ├── layout.tsx              # Root HTML layout & metadata
+│   └── page.tsx                # Privacy landing hero, workspace, & ZK toolbar
+└── shared/
+    └── utils/
+        ├── p2Proxy.ts          # Automated sensitive data & PII redaction engine
+        └── session.ts          # Ephemeral volatile RAM session controller
+```
